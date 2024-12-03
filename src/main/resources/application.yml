@@ -3,9 +3,9 @@ spring:
     name: mssistemalanchonete
   datasource:
     driverClassName: org.postgresql.Driver
-    password: 1234
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
   jpa:
     hibernate:
       ddl-auto: update
@@ -30,4 +30,4 @@ springdoc:
 api:
   security:
     token:
-      secret: c73a024d-d0e5-4537-80fa-7902851846f7
+      secret: ${TOKEN_SECRET}
