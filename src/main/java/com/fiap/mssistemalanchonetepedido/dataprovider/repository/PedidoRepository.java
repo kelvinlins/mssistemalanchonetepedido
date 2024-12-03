@@ -31,9 +31,6 @@ public class PedidoRepository implements PedidoPort {
     @Override
     public Pedido salvarPedido(Pedido pedido) {
         PedidoEntity entity = pedidoMapper.toEntity(pedido);
-        if (Objects.nonNull(entity.getCombos())){
-            entity.getCombos().forEach(comboEntity -> comboEntity.setPedido(entity));
-        }
         return pedidoMapper.toDomain(
           iPedidoRepository.save(
             entity
@@ -47,9 +44,7 @@ public class PedidoRepository implements PedidoPort {
           .orElseThrow(PedidoNotFoundException::new);
 
         pedidoMapper.merge(pedido, pedidoEntity);
-        if (Objects.nonNull(pedidoEntity.getCombos())){
-            pedidoEntity.getCombos().forEach(comboEntity -> comboEntity.setPedido(pedidoEntity));
-        }
+
         return pedidoMapper.toDomain(iPedidoRepository.save(pedidoEntity));
     }
 
