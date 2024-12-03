@@ -8,9 +8,11 @@ import com.fiap.mssistemalanchonetepedido.dataprovider.entity.PedidoItemEntity;
 import com.fiap.mssistemalanchonetepedido.dataprovider.mapper.PedidoItemMapper;
 import com.fiap.mssistemalanchonetepedido.dataprovider.mapper.ProdutoMapper;
 import com.fiap.mssistemalanchonetepedido.dataprovider.repository.jpa.IPedidoItemRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+@Transactional
 @Repository
 public class PedidoItemRepository implements PedidoItemPort {
 
@@ -24,6 +26,7 @@ public class PedidoItemRepository implements PedidoItemPort {
         this.pedidoItemMapper = pedidoItemMapper;
     }
 
+    @Transactional
     @Override
     public PedidoItem criaPedidoItem(PedidoItem pedidoItem) {
 

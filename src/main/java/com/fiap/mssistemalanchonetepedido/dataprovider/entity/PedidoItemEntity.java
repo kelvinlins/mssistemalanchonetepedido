@@ -18,7 +18,7 @@ public class PedidoItemEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "pedido_id", nullable = false)
+    @JoinColumn(name = "codigo_pedido", nullable = false)
     private PedidoEntity pedido;
 
     @Column(name = "produto_id")

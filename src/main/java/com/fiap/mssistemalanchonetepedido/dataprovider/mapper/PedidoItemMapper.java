@@ -16,7 +16,7 @@ public interface PedidoItemMapper extends EntityMapper<PedidoItemEntity, PedidoI
 
     default PedidoEntity generatePedidoEntity(PedidoItem domain) {
         PedidoEntity pedidoEntity = new PedidoEntity();
-        pedidoEntity.setCodigo(domain.getPedidoId());
+        pedidoEntity.setCodigo(domain.getCodigoPedido());
 
         return pedidoEntity;
     }

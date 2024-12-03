@@ -15,7 +15,7 @@ public class PedidoItem {
 
     private String id;
 
-    private String pedidoId;
+    private String codigoPedido;
 
     private String produtoId;
 
@@ -25,4 +25,11 @@ public class PedidoItem {
 
     private BigDecimal precoUnitario;
 
+    public PedidoItem(String codigoPedido, String produtoId, String comboId, Integer quantidade, BigDecimal precoUnitario) {
+        this.codigoPedido = codigoPedido;
+        this.produtoId = produtoId;
+        this.comboId = comboId;
+        this.quantidade = quantidade;
+        this.precoUnitario = precoUnitario;
+    }
 }

@@ -135,9 +135,14 @@ public class PedidoUseCase implements PedidoUseCaseFacade {
     var pedido = getPedidoPorCodigo(codigoPedido);
 
 
-    //PedidoItem pedidoItemtest = new PedidoItem("33a5d79b-9d2c-4e2f-b859-5d436ab8e678", "3359a45-f8f7-4b8d-9dd2-a92c51c6c912", "3359a45-f8f7-4b8d-9dd2-a92c51c6c911", 1, new BigDecimal(10));
+    PedidoItem pedidoItemtest = new PedidoItem(
+            "33a5d79b-9d2c-4e2f-b859-5d436ab8e678",
+            "3359a45-f8f7-4b8d-9dd2-a92c51c6c912",
+            "3359a45-f8f7-4b8d-9dd2-a92c51c6c911",
+            1,
+            new BigDecimal(10));
 
-    //System.out.println(pedidoItemPort.criaPedidoItem(pedidoItemtest));
+    System.out.println(pedidoItemPort.criaPedidoItem(pedidoItemtest));
 
     validation.validarStatusAlteracaoCombo(pedido);
     validation.validarCombos(pedidoParaAtualizar.getCombos());
