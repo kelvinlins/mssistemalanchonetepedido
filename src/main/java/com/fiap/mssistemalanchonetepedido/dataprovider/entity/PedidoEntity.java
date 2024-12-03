@@ -34,9 +34,6 @@ public class PedidoEntity {
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PedidoItemEntity> pedidoItens;
 
-    @OneToMany(mappedBy = "id.pedido", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ComboEntity> combos;
-
     @Column(name = "desconto")
     private BigDecimal desconto;
 

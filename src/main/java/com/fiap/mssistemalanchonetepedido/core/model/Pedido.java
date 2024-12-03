@@ -20,7 +20,6 @@ import java.util.Objects;
 public class Pedido {
     private String codigo;
     private Cliente cliente;
-    private List<Combo> combos = new ArrayList<>();
     private List<PedidoItem> pedidoItens = new ArrayList<>();
     private BigDecimal desconto;
     private StatusPedidoEnum status;
@@ -32,18 +31,6 @@ public class Pedido {
         }
         var tempoEsperada = Duration.between(horaCheckout, LocalDateTime.now());
         return String.valueOf(tempoEsperada.toMinutes())+" min";
-    }
-
-    public Boolean semProdutos() {
-        return combos.stream()
-          .map(Combo::semProdutos)
-          .reduce(Boolean.TRUE, (a, b)-> a && b);
-    }
-
-    public BigDecimal getTotal() {
-        return combos.stream()
-          .map(Combo::getSubTotal)
-          .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public String getCodigoClienteAsString(){

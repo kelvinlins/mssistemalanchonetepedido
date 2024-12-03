@@ -145,6 +145,23 @@ public class PedidoController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(
+            description = "Finaliza pedido",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Combo criado com sucesso!"),
+                    @ApiResponse(responseCode = "406",
+                            description = "Status do Pedido não permite alteração!",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                    @ApiResponse(responseCode = "404",
+                            description = "Pedido não encontrado!",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            }
+    )
+    @PostMapping(value = "/{codigoPedido}/checkout", produces = "application/json")
+    public ResponseEntity<PedidoResponseDto> checkout(@PathVariable final String codigoPedido) throws Exception {
+        return ResponseEntity.ok(pedidoDtoMapper.toPedidoResponseDto(pedidoUseCaseFacade.checkout(codigoPedido)));
+    }
+
     /*
 
     @Operation(
@@ -233,22 +250,7 @@ public class PedidoController {
         );
     }
 
-    @Operation(
-            description = "Finaliza pedido",
-            responses = {
-                    @ApiResponse(responseCode = "201", description = "Combo criado com sucesso!"),
-                    @ApiResponse(responseCode = "406",
-                            description = "Status do Pedido não permite alteração!",
-                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-                    @ApiResponse(responseCode = "404",
-                            description = "Pedido não encontrado!",
-                            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-            }
-    )
-    @PostMapping(value = "/{codigoPedido}/checkout", produces = "application/json")
-    public ResponseEntity<PedidoResponseDto> checkout(@PathVariable final String codigoPedido) throws Exception {
-        return ResponseEntity.ok(pedidoDtoMapper.toPedidoResponseDto(pedidoUseCaseFacade.checkout(codigoPedido)));
-    }
+
 
     */
 

@@ -37,15 +37,12 @@ public class PedidoItemRepository implements PedidoItemPort {
 
         List<PedidoItem> pedidoItems = new ArrayList<>();
 
-        pedidoParaAtualizar.getCombos().stream() // Stream de Combos
-                .flatMap(combo -> combo.getItens().entrySet().stream()) // Mapear os itens de cada combo
-                .forEach(entry -> {
-                    Produto produto = entry.getKey(); // Produto
-                    Integer quantidade = entry.getValue(); // quantidade
+        pedidoParaAtualizar.getPedidoItens().stream().forEach(pedidoItem1 -> {
 
                     // Exemplo de operação com cada item
 
-                    PedidoItem pedidoItem = new PedidoItem(pedidoId, produto.getCodigo(), "", quantidade, new BigDecimal(10));
+                    PedidoItem pedidoItem = new PedidoItem(pedidoId, pedidoItem1.getCodigoPedido(),
+                            "", pedidoItem1.getQuantidade(), new BigDecimal(10));
 
                     pedidoItems.add(pedidoItem);
 

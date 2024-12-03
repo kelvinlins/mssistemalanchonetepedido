@@ -15,6 +15,7 @@ public interface IPedidoRepository extends JpaRepository<PedidoEntity, String> {
 
   Optional<PedidoEntity> findByCodigo(String codigo);
   Page<PedidoEntity> findAllByStatusIn(List<String> statusList, Pageable pageable);
+
   @Query("SELECT p FROM pedido p WHERE p.status != 'FINALIZADO' ORDER BY " +
           "CASE p.status " +
           "  WHEN 'PRONTO' THEN 1 " +

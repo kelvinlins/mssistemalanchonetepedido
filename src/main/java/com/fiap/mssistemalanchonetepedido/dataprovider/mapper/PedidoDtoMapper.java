@@ -1,8 +1,8 @@
 package com.fiap.mssistemalanchonetepedido.dataprovider.mapper;
 
 import com.fiap.mssistemalanchonetepedido.core.model.Cliente;
-import com.fiap.mssistemalanchonetepedido.core.model.Combo;
 import com.fiap.mssistemalanchonetepedido.core.model.Pedido;
+import com.fiap.mssistemalanchonetepedido.core.model.PedidoItem;
 import com.fiap.mssistemalanchonetepedido.core.model.Produto;
 import com.fiap.mssistemalanchonetepedido.entrypoint.dto.*;
 import org.apache.commons.lang3.ObjectUtils;
@@ -12,13 +12,14 @@ import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.data.domain.Page;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Mapper(
-  componentModel = "spring",
-  nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+        componentModel = "spring",
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
 public interface PedidoDtoMapper {
 
@@ -30,25 +31,28 @@ public interface PedidoDtoMapper {
 
   Pedido toDomain(AtualizaPedidoRequestDto dto);
 
-  @Mapping(target = "combos", expression = "java(toDomainCombos(dto.itens()))")
+  @Mapping(target = "pedidoItens", expression = "java(toDomainCombos(dto.itens()))")
   Pedido toDomain(CriarComboRequestDto dto);
 
-  default List<Combo> toDomainCombos(List<AdicionarProdutoRequestDto> itens){
+  default List<PedidoItem> toDomainCombos(List<AdicionarProdutoRequestDto> itens){
     if (Objects.isNull(itens)){
       return null;
     }
 
-    Combo combo = new Combo();
-    itens.stream()
-      .filter(Objects::nonNull)
-      .filter(item-> StringUtils.isNotBlank(item.codigoProduto()) &&
-        Objects.nonNull(item.quantidade()))
-      .forEach(item -> combo.getItens().put(
-        Produto.builder().codigo(item.codigoProduto()).build(), item.quantidade()));
+    List<PedidoItem> pedidos = new ArrayList<>();
 
-    List<Combo> combos = new ArrayList<>();
-    combos.add(combo);
-    return combos;
+
+    itens.forEach(
+            item -> {
+              PedidoItem pedido = new PedidoItem();
+              pedido.setQuantidade(item.quantidade());
+              pedido.setProdutoId(item.codigoProduto());
+              pedido.setPrecoUnitario(BigDecimal.valueOf(item.valor()));
+              pedidos.add(pedido);
+            }
+            );
+
+    return pedidos;
   }
 
   default Cliente toDomainCliente(Long codigoCliente){
@@ -72,46 +76,6 @@ public interface PedidoDtoMapper {
   @Mapping(target = "tempoEspera", expression = "java(pedido.getTempoEspera())")
   AcompanhamentoCozinhaResponseDto toAcompanhamentoCozinhaResponse(Pedido pedido);
 
-  default ComboAcompanhamentoCozinhaDto toComboAcompanhamentoCozinhaDto(Combo combo){
-    if (Objects.isNull(combo)){
-      return null;
-    }
-    List<ItemComboAcompanhamentoCozinhaDto> itensDto = new ArrayList<>();
-    combo.getItens().forEach(
-      (produto, quantidade) -> itensDto.add(
-        new ItemComboAcompanhamentoCozinhaDto(
-          produto.getCodigo(),
-          produto.getNome(),
-          produto.getDescricao(),
-          produto.getCategoria(),
-          quantidade
-        )
-      )
-    );
-    return new ComboAcompanhamentoCozinhaDto(combo.getId(),itensDto);
-  }
-
-  default ComboDto toComboDto(Combo combo){
-    if (Objects.isNull(combo)){
-      return null;
-    }
-    List<ItemComboDto> itensDto = new ArrayList<>();
-    if (Objects.nonNull(combo.getItens())){
-      combo.getItens().forEach(
-        (produto, quantidade) -> itensDto.add(
-          new ItemComboDto(
-            produto.getCodigo(),
-            produto.getNome(),
-            produto.getDescricao(),
-            produto.getCategoria(),
-            quantidade,
-            produto.getPreco()
-          )
-        )
-      );
-    }
-    return new ComboDto(combo.getId(), itensDto, combo.getSubTotal());
-  }
 
   default Page<PedidoResponseDto> toPagePedidoResponseDto(Page<Pedido> pedidos){
     return pedidos.map(this::toPedidoResponseDto);

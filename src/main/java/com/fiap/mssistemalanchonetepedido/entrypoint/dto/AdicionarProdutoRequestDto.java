@@ -7,7 +7,11 @@ import java.util.Map;
 
 public record AdicionarProdutoRequestDto(
   String codigoProduto,
+
+  Integer valor,
+
   Integer quantidade
+
 ) {
   public Map<Produto, Integer> toMapItem() {
     Map<Produto, Integer> map = new HashMap<>();
@@ -19,4 +23,5 @@ public record AdicionarProdutoRequestDto(
     );
     return null;
   }
+
 }
