@@ -32,6 +32,12 @@ public class PedidoRepository implements PedidoPort {
     public Pedido salvarPedido(Pedido pedido) {
         PedidoEntity entity = pedidoMapper.toEntity(pedido);
 
+        entity.getPedidoItens().forEach(
+                pedidoItem -> {
+                    pedidoItem.setPedido(pedidoMapper.toEntity(pedido));
+                }
+        );
+
         return pedidoMapper.toDomain(
           iPedidoRepository.save(
             entity

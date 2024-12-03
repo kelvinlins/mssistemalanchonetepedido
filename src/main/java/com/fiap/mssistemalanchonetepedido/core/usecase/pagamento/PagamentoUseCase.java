@@ -38,7 +38,12 @@ public class PagamentoUseCase implements PagamentoUseCaseFacade {
             throw new PedidoPagoException();
         }
 
-        pedido.setStatus(StatusPedidoEnum.PAGO);
+        /*pedido.setStatus(StatusPedidoEnum.PAGO);
+        pedido.getPedidoItens().forEach(
+                pedidoItem -> {
+                    pedidoItem.setCodigoPedido(pedido.getCodigo());
+                }
+        );*/
 
         return pedidoPort.salvarPedido(pedido);
     }
