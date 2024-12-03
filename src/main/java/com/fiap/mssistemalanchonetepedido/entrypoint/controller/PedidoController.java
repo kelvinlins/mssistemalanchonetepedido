@@ -68,12 +68,10 @@ public class PedidoController {
             }
     )
     @GetMapping(value = "/{codigoPedido}", produces = "application/json")
-    public ResponseEntity<PedidoResponseDto> getPedido(
+    public ResponseEntity<Pedido> getPedido(
             @PathVariable final String codigoPedido) throws Exception {
         return ResponseEntity.ok(
-                pedidoDtoMapper.toPedidoResponseDto(
-                        pedidoUseCaseFacade.getPedidoPorCodigo(codigoPedido)
-                )
+                pedidoUseCaseFacade.getPedidoPorCodigo(codigoPedido)
         );
     }
 
@@ -129,6 +127,22 @@ public class PedidoController {
         return ResponseEntity.ok(
                 pedidoDtoMapper.toPedidoResponseDto(pedido)
         );
+    }
+
+    @Operation(
+            description = "Deleta o combo identificado do pedido",
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Pedidos deletado"),
+                    @ApiResponse(responseCode = "404",
+                            description = "Recurso não encontrado!",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            }
+    )
+    @DeleteMapping(value = "/{codigoPedido}/combos/{comboId}", produces = "application/json")
+    public ResponseEntity<Object> deletarCombo(@PathVariable final String codigoPedido,
+                                               @PathVariable final Integer comboId) throws Exception {
+        pedidoUseCaseFacade.deletarCombo(codigoPedido, comboId);
+        return ResponseEntity.noContent().build();
     }
 
     /*
@@ -202,21 +216,7 @@ public class PedidoController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(
-      description = "Deleta o combo identificado do pedido",
-      responses = {
-        @ApiResponse(responseCode = "204", description = "Pedidos deletado"),
-        @ApiResponse(responseCode = "404",
-          description = "Recurso não encontrado!",
-          content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-      }
-    )
-    @DeleteMapping(value = "/{codigoPedido}/combos/{comboId}", produces = "application/json")
-    public ResponseEntity<Object> deletarCombo(@PathVariable final String codigoPedido,
-                                               @PathVariable final Integer comboId) throws Exception {
-        pedidoUseCaseFacade.deletarCombo(codigoPedido, comboId);
-        return ResponseEntity.noContent().build();
-    }
+
 
     @Operation(
       description = "Retorna uma page de pedidos",

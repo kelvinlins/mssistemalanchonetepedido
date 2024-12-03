@@ -1,6 +1,7 @@
 package com.fiap.mssistemalanchonetepedido.entrypoint.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fiap.mssistemalanchonetepedido.core.model.PedidoItem;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,6 +12,9 @@ public record PedidoResponseDto(
   String codigo,
   String status,
   List<ComboDto> combos,
+
+  List<PedidoItem> pedidoItens,
+
   BigDecimal total,
   LocalDateTime horaCheckout,
   String tempoEspera,

@@ -58,12 +58,15 @@ public class PedidoRepository implements PedidoPort {
 
         Optional<PedidoEntity> pedido = iPedidoRepository.findById(codigo);
 
-        System.out.println(pedido);
+
+        Pedido pedidoResponse = pedidoMapper.toDomain(pedido.get());
 
 
-        return iPedidoRepository.findById(codigo)
-                .map(pedidoMapper::toDomain)
-                .orElse(null);
+        System.out.println(pedidoResponse);
+
+
+
+        return pedidoResponse;
     }
 
     @Override
