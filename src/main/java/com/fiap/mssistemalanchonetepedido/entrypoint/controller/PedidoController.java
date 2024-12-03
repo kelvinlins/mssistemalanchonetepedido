@@ -93,12 +93,14 @@ public class PedidoController {
             }
     )
     @PostMapping(value = "/{codigoPedido}/combos",consumes = "application/json", produces = "application/json")
-    public ResponseEntity<CriarComboResponseDto> criarCombo(
+    public ResponseEntity<PedidoResponseDto> criarCombo(
             @RequestBody final CriarComboRequestDto request, @PathVariable final String codigoPedido) throws Exception {
         Pedido pedido = pedidoDtoMapper.toDomain(request);
         var idComboAdicionado = pedidoUseCaseFacade.adicionarCombo(codigoPedido, pedido);
         return ResponseEntity.ok(
-                new CriarComboResponseDto(idComboAdicionado)
+                pedidoDtoMapper.toPedidoResponseDto(
+                        pedidoUseCaseFacade.getPedidoPorCodigo(codigoPedido)
+                )
         );
     }
 

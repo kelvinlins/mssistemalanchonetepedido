@@ -24,7 +24,7 @@ public interface PedidoUseCaseFacade {
 
     Page<Pedido> listarPedidosPorStatus(Pageable pageable, List<StatusPedidoEnum> status) throws Exception;
 
-    Integer adicionarCombo(String codigoPedido, Pedido pedidoParaAtualizar) throws Exception;
+    Pedido adicionarCombo(String codigoPedido, Pedido pedidoParaAtualizar) throws Exception;
 
     Pedido getPedidoPorCodigo(String codigoPedido);
 

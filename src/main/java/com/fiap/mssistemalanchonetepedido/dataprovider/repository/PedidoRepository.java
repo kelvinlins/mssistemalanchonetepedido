@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Repository
 public class PedidoRepository implements PedidoPort {
@@ -54,6 +55,12 @@ public class PedidoRepository implements PedidoPort {
 
     @Override
     public Pedido consultarPedidoPorCodigo(String codigo) {
+
+        Optional<PedidoEntity> pedido = iPedidoRepository.findById(codigo);
+
+        System.out.println(pedido);
+
+
         return iPedidoRepository.findById(codigo)
                 .map(pedidoMapper::toDomain)
                 .orElse(null);

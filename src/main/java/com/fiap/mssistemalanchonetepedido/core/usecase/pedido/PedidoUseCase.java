@@ -12,6 +12,9 @@ import com.fiap.mssistemalanchonetepedido.core.port.PedidoPort;
 import com.fiap.mssistemalanchonetepedido.core.usecase.PedidoUseCaseFacade;
 import com.fiap.mssistemalanchonetepedido.core.validation.pedido.PedidoValidation;
 import com.fiap.mssistemalanchonetepedido.dataprovider.entity.PedidoEntity;
+import com.fiap.mssistemalanchonetepedido.dataprovider.mapper.PedidoDtoMapper;
+import com.fiap.mssistemalanchonetepedido.dataprovider.mapper.PedidoItemMapper;
+import com.fiap.mssistemalanchonetepedido.entrypoint.dto.PedidoResponseDto;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,11 +36,14 @@ public class PedidoUseCase implements PedidoUseCaseFacade {
   private final PedidoItemPort pedidoItemPort;
   private final PedidoValidation validation;
 
+  private final PedidoItemMapper pedidoItemMapper;
+
   @Autowired
-  public PedidoUseCase(PedidoPort pedidoPort, PedidoItemPort pedidoItemPort, PedidoValidation validation){
+  public PedidoUseCase(PedidoPort pedidoPort, PedidoItemPort pedidoItemPort, PedidoValidation validation, PedidoItemMapper pedidoItemMapper){
     this.pedidoPort = pedidoPort;
     this.pedidoItemPort = pedidoItemPort;
     this.validation = validation;
+    this.pedidoItemMapper = pedidoItemMapper;
   }
 
   @Override
@@ -131,33 +137,13 @@ public class PedidoUseCase implements PedidoUseCaseFacade {
   }
 
   @Override
-  public Integer adicionarCombo(String codigoPedido, Pedido pedidoParaAtualizar) {
+  public Pedido adicionarCombo(String codigoPedido, Pedido pedidoParaAtualizar) {
     var pedido = getPedidoPorCodigo(codigoPedido);
 
+    List<PedidoItem> pedidoItems = pedidoItemPort.criaPedidoItem(codigoPedido, pedidoParaAtualizar);
 
-    PedidoItem pedidoItemtest = new PedidoItem(
-            "33a5d79b-9d2c-4e2f-b859-5d436ab8e678",
-            "3359a45-f8f7-4b8d-9dd2-a92c51c6c912",
-            "3359a45-f8f7-4b8d-9dd2-a92c51c6c911",
-            1,
-            new BigDecimal(10));
+    return getPedidoPorCodigo(codigoPedido);
 
-    System.out.println(pedidoItemPort.criaPedidoItem(pedidoItemtest));
-
-    validation.validarStatusAlteracaoCombo(pedido);
-    validation.validarCombos(pedidoParaAtualizar.getCombos());
-
-    var maiorComboId = pedido.getCombos().stream()
-            .filter(Objects::nonNull)
-            .map(Combo::getId)
-            .max(Integer::compareTo);
-
-    Combo comboParaAdiconar = getComboParaAdiconar(pedidoParaAtualizar);
-
-    comboParaAdiconar.setId(1 + maiorComboId.orElse(0));
-    pedido.getCombos().add(comboParaAdiconar);
-    pedidoPort.atualizarPedido(pedido);
-    return comboParaAdiconar.getId();
   }
 
   @Override

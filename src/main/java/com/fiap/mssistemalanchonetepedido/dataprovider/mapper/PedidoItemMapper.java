@@ -20,4 +20,5 @@ public interface PedidoItemMapper extends EntityMapper<PedidoItemEntity, PedidoI
 
         return pedidoEntity;
     }
+
 }

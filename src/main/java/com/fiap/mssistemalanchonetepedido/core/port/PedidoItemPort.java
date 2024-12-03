@@ -4,7 +4,9 @@ import com.fiap.mssistemalanchonetepedido.core.model.Pedido;
 import com.fiap.mssistemalanchonetepedido.core.model.PedidoItem;
 import com.fiap.mssistemalanchonetepedido.dataprovider.entity.PedidoItemEntity;
 
+import java.util.List;
+
 public interface PedidoItemPort {
 
-    PedidoItem criaPedidoItem(PedidoItem pedidoItem);
+    List<PedidoItem> criaPedidoItem(String pedidoId, Pedido pedidoParaAtualizar);
 }

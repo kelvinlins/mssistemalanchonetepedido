@@ -21,6 +21,7 @@ public class Pedido {
     private String codigo;
     private Cliente cliente;
     private List<Combo> combos = new ArrayList<>();
+    private List<PedidoItem> pedidoItens = new ArrayList<>();
     private BigDecimal desconto;
     private StatusPedidoEnum status;
     private LocalDateTime horaCheckout;
