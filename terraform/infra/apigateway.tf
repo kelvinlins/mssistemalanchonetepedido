@@ -18,7 +18,7 @@ module "api_gateway" {
   # Routes & Integration(s)
   routes = {
 
-    "ANY /sistema-lanchonete-cliente/api/v1/auth" = {
+    "ANY /sistema-lanchonete/api/v1/pedidos" = {
       integration = {
         connection_type = "VPC_LINK"
         uri             = data.aws_lb_listener.ingress.arn
@@ -28,7 +28,7 @@ module "api_gateway" {
       }
     }
 
-    "ANY /sistema-lanchonete-cliente/api/v1/auth/{proxy+}" = {
+    "ANY /sistema-lanchonete/api/v1/pedidos/{proxy+}" = {
       integration = {
         connection_type = "VPC_LINK"
         uri             = data.aws_lb_listener.ingress.arn
@@ -38,7 +38,7 @@ module "api_gateway" {
       }
     }
 
-    "ANY /sistema-lanchonete-cliente/api/v1/swagger-ui" = {
+    "ANY /sistema-lanchonete/api/v1/pagamentos/{proxy+}" = {
       integration = {
         connection_type = "VPC_LINK"
         uri             = data.aws_lb_listener.ingress.arn
@@ -48,17 +48,7 @@ module "api_gateway" {
       }
     }
 
-    "ANY /sistema-lanchonete-cliente/api/v1/swagger-ui/{proxy+}" = {
-      integration = {
-        connection_type = "VPC_LINK"
-        uri             = data.aws_lb_listener.ingress.arn
-        type            = "HTTP_PROXY"
-        method          = "ANY"
-        vpc_link_key    = "my-vpc"
-      }
-    }
-
-    "POST /sistema-lanchonete-cliente/api/v1/clientes" = {
+    "ANY /sistema-lanchonete/api/v1/pagamentos" = {
       integration = {
         connection_type = "VPC_LINK"
         uri             = data.aws_lb_listener.ingress.arn
@@ -86,7 +76,7 @@ module "api_gateway" {
     my-vpc = {
       name               = "${var.project_name}-vpc-link"
       security_group_ids = [module.api_gateway_security_group.security_group_id]
-      subnet_ids         = data.aws_subnets.mslanchonetecliente_public_subnets.ids
+      subnet_ids         = data.aws_subnets.mslanchonetepedido_public_subnets.ids
     }
   }
 
@@ -116,7 +106,7 @@ module "api_gateway_security_group" {
 
   name        = "${var.project_name}-apigateway"
   description = "API Gateway group"
-  vpc_id      = data.aws_vpc.mslanchonetecliente_vpc.id
+  vpc_id      = data.aws_vpc.mslanchonetepedido_vpc.id
 
   ingress_cidr_blocks = ["0.0.0.0/0"]
   ingress_rules       = ["http-80-tcp"]
