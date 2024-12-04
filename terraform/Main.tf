@@ -6,7 +6,7 @@ terraform {
   }
 }
 
-module "mslanchonetecliente" {
+module "mslanchonetepedido" {
   source = "./infra"
 
   project_name = var.projectname
