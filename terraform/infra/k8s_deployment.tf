@@ -40,12 +40,12 @@ resource "kubernetes_deployment" "deployment" {
 
           env {
             name  = "SPRING_DATASOURCE_URL"
-            value = "jdbc:postgresql://${data.aws_db_instance.database.endpoint}/${data.aws_db_instance.database.db_name}"
+            value = "jdbc:postgresql://pedido.ch2a4s0muanr.us-east-2.rds.amazonaws.com:5432/pedido"
           }
 
           env {
             name  = "SPRING_DATASOURCE_USERNAME"
-            value = data.aws_db_instance.database.master_username
+            value = postgres
           }
 
           env {
@@ -55,12 +55,7 @@ resource "kubernetes_deployment" "deployment" {
 
           env {
             name = "SPRING_DATASOURCE_PASSWORD"
-            value_from {
-              secret_key_ref {
-                name = "${var.project_name}-secret-database"
-                key  = "password"
-              }
-            }
+            value = "postgres"
           }
 
           env {
