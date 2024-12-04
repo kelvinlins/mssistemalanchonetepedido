@@ -45,7 +45,7 @@ resource "kubernetes_deployment" "deployment" {
 
           env {
             name  = "SPRING_DATASOURCE_USERNAME"
-            value = postgres
+            value = "postgres"
           }
 
           env {
