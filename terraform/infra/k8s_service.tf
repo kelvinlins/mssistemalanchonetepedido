@@ -26,7 +26,7 @@ resource "kubernetes_ingress_v1" "ingress" {
       "alb.ingress.kubernetes.io/target-type"        = "instance"
       "alb.ingress.kubernetes.io/scheme"             = "internal"
       "alb.ingress.kubernetes.io/load-balancer-name" = "${var.project_name}-ingress2"
-      "alb.ingress.kubernetes.io/healthcheck-path"   = "/sistema-lanchonete-cliente/api/v1"
+      "alb.ingress.kubernetes.io/healthcheck-path"   = "/sistema-lanchonete/api/v1"
       "alb.ingress.kubernetes.io/success-codes"      = "200-404"
       "alb.ingress.kubernetes.io/tags"               = "Name=${var.project_name}-ingress"
     }
@@ -46,7 +46,7 @@ resource "kubernetes_ingress_v1" "ingress" {
     rule {
       http {
         path {
-          path = "/sistema-lanchonete-pedido"
+          path = "/sistema-lanchonete"
 
           backend {
             service {
