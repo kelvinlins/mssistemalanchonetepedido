@@ -18,46 +18,6 @@ module "api_gateway" {
   # Routes & Integration(s)
   routes = {
 
-    "ANY /sistema-lanchonete/api/v1/pedidos" = {
-      integration = {
-        connection_type = "VPC_LINK"
-        uri             = data.aws_lb_listener.ingress.arn
-        type            = "HTTP_PROXY"
-        method          = "ANY"
-        vpc_link_key    = "my-vpc"
-      }
-    }
-
-    "ANY /sistema-lanchonete/api/v1/pedidos/{proxy+}" = {
-      integration = {
-        connection_type = "VPC_LINK"
-        uri             = data.aws_lb_listener.ingress.arn
-        type            = "HTTP_PROXY"
-        method          = "ANY"
-        vpc_link_key    = "my-vpc"
-      }
-    }
-
-    "ANY /sistema-lanchonete/api/v1/pagamentos/{proxy+}" = {
-      integration = {
-        connection_type = "VPC_LINK"
-        uri             = data.aws_lb_listener.ingress.arn
-        type            = "HTTP_PROXY"
-        method          = "ANY"
-        vpc_link_key    = "my-vpc"
-      }
-    }
-
-    "ANY /sistema-lanchonete/api/v1/pagamentos" = {
-      integration = {
-        connection_type = "VPC_LINK"
-        uri             = data.aws_lb_listener.ingress.arn
-        type            = "HTTP_PROXY"
-        method          = "ANY"
-        vpc_link_key    = "my-vpc"
-      }
-    }
-
     "$default" = {
       authorization_type = "CUSTOM"
       authorizer_id      = aws_apigatewayv2_authorizer.lambda-auth.id
