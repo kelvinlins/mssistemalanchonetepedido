@@ -6,7 +6,7 @@ terraform {
   }
 }
 
-module "mssistemalanchonetepedido" {
+module "mslanchonetepedido" {
   source = "./infra"
 
   project_name = var.projectname
@@ -21,6 +21,6 @@ variable "aws_region" {
 
 variable "projectname" {
   type        = string
-  default     = "mssistemalanchonetepedido"
+  default     = "mslanchonetepedido"
   description = "Application Name"
 }
