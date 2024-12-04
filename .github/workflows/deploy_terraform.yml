@@ -27,7 +27,7 @@ jobs:
 
       - name: Get Ecr host
         run: |
-          ecrhost=$(aws ecr describe-repositories --repository-names mssistemalanchonetepedido-repository | grep -oP '"repositoryUri": "\K[^"]+(?=")')
+          ecrhost=$(aws ecr describe-repositories --repository-names mslanchonetepedido-repository | grep -oP '"repositoryUri": "\K[^"]+(?=")')
           echo "ECRHOST=$ecrhost" >> $GITHUB_ENV
 
       - name: Configure Docker
@@ -40,11 +40,11 @@ jobs:
           echo "VERSION=$version" >> $GITHUB_ENV
 
       - name: Build Docker Image
-        run: docker build -t mssistemalanchonetepedido .
+        run: docker build -t mslanchonetepedido .
 
       - name: Create tag repository
         run:
-          docker tag mssistemalanchonetepedido:latest "${{ env.ECRHOST }}:${{ env.VERSION }}"
+          docker tag mslanchonetepedido:latest "${{ env.ECRHOST }}:${{ env.VERSION }}"
 
       - name: Push Docker Image
         run: docker push ${{ env.ECRHOST }}:${{ env.VERSION }}

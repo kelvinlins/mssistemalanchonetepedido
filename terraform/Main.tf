@@ -27,6 +27,6 @@ variable "app_version" {
 
 variable "projectname" {
   type        = string
-  default     = "mssistemalanchonetepedido"
+  default     = "mslanchonetepedido"
   description = "Application Name"
 }
