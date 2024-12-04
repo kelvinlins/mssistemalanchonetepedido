@@ -39,8 +39,28 @@ resource "kubernetes_deployment" "deployment" {
           }
 
           env {
-            name  = "MONGODB_URL"
-            value = "mongodb+srv://root:v1FgmWFh5YJqvdLE@fiap-postech.bn0pf.mongodb.net/fiap-postech?retryWrites=true&w=majority&appName=fiap-postech"
+            name  = "SPRING_DATASOURCE_URL"
+            value = "jdbc:postgresql://${data.aws_db_instance.database.endpoint}/${data.aws_db_instance.database.db_name}"
+          }
+
+          env {
+            name  = "SPRING_DATASOURCE_USERNAME"
+            value = data.aws_db_instance.database.master_username
+          }
+
+          env {
+            name  = "SPRING_JPA_HIBERNATE_DDL_AUTO"
+            value = "update"
+          }
+
+          env {
+            name = "SPRING_DATASOURCE_PASSWORD"
+            value_from {
+              secret_key_ref {
+                name = "${var.project_name}-secret-database"
+                key  = "password"
+              }
+            }
           }
 
           env {
