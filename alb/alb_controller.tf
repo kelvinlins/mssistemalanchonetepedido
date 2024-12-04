@@ -67,6 +67,6 @@ variable "aws_region" {
 
 variable "projectname" {
   type        = string
-  default     = "mslanchonetecliente"
+  default     = "mslanchonetepedido"
   description = "Application Name"
 }
